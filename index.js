@@ -20,7 +20,38 @@ mongoose
     return Recipe.deleteMany()
   })
   .then(() => {
-    // Run your code here, after you have insured that the connection was made
+    return Recipe.create ({
+      title: "Pastelito",
+      level: "Easy Peasy",
+      ingredients: "Mucho amor, tiempo, dedicación",
+      cuisine: "Vasca",
+      dishType: "breakfast",
+      image: "https://images.media-allrecipes.com/images/75131.jpg",
+      duration: 90,
+      creator: "Yo",
+    });
+  })
+  .then(() => {
+    return Recipe.insertMany(data);
+  })
+  .then(() => {
+    return Recipe.findOneAndUpdate(
+      {title:'Rigatoni alla Genovese'},
+      {duration: 100},
+      {new:true},
+      console.log('Duration modified.'))
+  })
+  .then((timeActual) => {
+    console.log("updated duration", timeActual);
+  })
+  .then(() => {
+    Recipe.deleteOne({ title: "Carrot Cake" });
+  })
+  .then((recipeDeleted) => {
+    console.log("Carrot Cake is deleted", recipeDeleted)
+  })
+  .then(() => {
+    mongoose.connection.close();
   })
   .catch(error => {
     console.error('Error connecting to the database', error);
